@@ -1,0 +1,38 @@
+baseURL = 'http://159.69.113.183:1313/'
+languageCode = 'en-us'
+title = 'Fairlinked'
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  user = "fairlinked"
+  hostname = "fairlinked.eu"
+  sitedescription = "Fairlinked — Linking fairness to technology"
+  showMetadata = true
+
+  [params.author]
+    name = "Fairlinked"
+
+  [params.styles]
+    color = "orange"
+
+  [[params.social]]
+    key = 0
+    name = "email"
+    url = "mailto:hello@fairlinked.eu"
+
+[menu]
+  [[menu.header]]
+    name = "about"
+    weight = 0
+    url = "/about"
+
+  [[menu.header]]
+    name = "blog"
+    weight = 1
+    url = "/post"
+
+[module]
+  [[module.imports]]
+    path = 'github.com/lordmathis/hugo-theme-nightfall'
