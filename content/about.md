@@ -14,6 +14,8 @@ LinkedIn is the world's largest professional network. Over 1.2 billion people an
 
 These people and businesses deserve representation.
 
-Fairlinked, Alliance for Digital Fairness e.V., was formed to be that representation.
+<p>&nbsp;</p>
+
+**Fairlinked** - Alliance for Digital Fairness e.V., was formed to be that representation.
 
 Join us and help to make LinkedIn a better place for all of us.

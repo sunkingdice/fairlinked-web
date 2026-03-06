@@ -61,6 +61,15 @@
       line-height: 1.6;
     }
 
+    .subtitle h2 {
+      font-family: "Open Sans", sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 300;
+      opacity: 0.85;
+      max-width: 38ch;
+      line-height: 1.6;
+    }
+
     a {
       color: #fff;
       text-decoration: none;
@@ -99,8 +108,8 @@
   </nav>
   <main>
     <img class="icon" src="/F-icon.svg" alt="">
-    <h1>{{ .Site.Title }}</h1>
-    <p>{{ .Site.Params.sitedescription }}</p>
+    <h1>{{ .Title }}</h1>
+    <div class="subtitle">{{ .Content }}</div>
   </main>
   <footer>
     <span>Copyright 2025-2026 by Fairlinked - Alliance for digital fairness e.V.</span>
