@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }}</title>
+  <meta name="description" content="{{ .Site.Params.sitedescription }}">
+  <link rel="icon" type="image/svg+xml" href="/F-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Open Sans", sans-serif;
+      color: #fff;
+      background: linear-gradient(to bottom, #288bed, #0A66C2 50%, #02376b);
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: "Fira Mono", monospace;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 300;
+      opacity: 0.85;
+      max-width: 38ch;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      transition: border-color 0.2s;
+    }
+
+    a:hover {
+      border-color: #fff;
+    }
+
+    nav {
+      padding: 1rem 2rem;
+      text-align: right;
+    }
+
+    nav a {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      margin-left: 1.5rem;
+    }
+
+    footer {
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    {{ range sort .Site.RegularPages "Weight" }}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{ end }}
+  </nav>
+  <main>
+    <img class="icon" src="/F-icon.svg" alt="">
+    <h1>{{ .Site.Title }}</h1>
+    <p>{{ .Site.Params.sitedescription }}</p>
+  </main>
+  <footer>
+    <span>Copyright 2025-2026 by Fairlinked - Alliance for digital fairness e.V.</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<header style="display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;">
+    <a href="{{ .Site.BaseURL | relLangURL }}" style="display:flex;align-items:center;text-decoration:none;border:none;color:#fff;font-family:'Fira Mono',monospace;font-size:0.9rem;">
+        <img src="/F-icon.svg" alt="" style="width:24px;height:24px;margin-right:0.4rem;">
+        <span>{{ .Site.Title }}</span>
+    </a>
+    <nav>
+        {{ range sort .Site.RegularPages "Weight" }}
+            <a href="{{ .RelPermalink }}" style="font-family:'Fira Mono',monospace;font-size:0.9rem;margin-left:1.5rem;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.4);">{{ .Title }}</a>
+        {{ end }}
+    </nav>
+</header>

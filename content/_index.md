@@ -1,5 +1,5 @@
 ---
 title: "Fairlinked"
 ---
+## The trade association and advocacy group for commercial Linkedin users
 
-Welcome to Fairlinked. We are building technology that puts fairness first.

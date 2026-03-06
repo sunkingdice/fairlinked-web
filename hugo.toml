@@ -2,13 +2,19 @@ baseURL = 'http://159.69.113.183:1313/'
 languageCode = 'en-us'
 title = 'Fairlinked'
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [pagination]
   pagerSize = 10
 
 [params]
   user = "fairlinked"
   hostname = "fairlinked.eu"
-  sitedescription = "Fairlinked — Linking fairness to technology"
+  sitedescription = "The trade association and advocacy group for commercial Linkedin users"
+  footerHtml = 'Copyright 2025-2026 by Fairlinked - Alliance for digital fairness e.V.'
   showMetadata = true
 
   [params.author]
@@ -24,14 +30,9 @@ title = 'Fairlinked'
 
 [menu]
   [[menu.header]]
-    name = "about"
+    name = "About"
     weight = 0
     url = "/about"
-
-  [[menu.header]]
-    name = "blog"
-    weight = 1
-    url = "/post"
 
 [module]
   [[module.imports]]
