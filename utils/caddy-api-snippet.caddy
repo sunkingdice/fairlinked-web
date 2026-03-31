@@ -1,0 +1,5 @@
+# Merge inside your fairlinked.eu site block (Caddy v2).
+# Strips /api prefix when proxying to the Go service (routes are /health, /membership-applications).
+handle_path /api/* {
+	reverse_proxy 127.0.0.1:8080
+}

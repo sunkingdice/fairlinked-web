@@ -5,7 +5,6 @@ draft: false
 showMetadata: false
 weight: 10
 ---
-
 ## Why LinkedIn needs an advocacy group
 
 The EU treats big tech platforms like public infrastructure. If your platform is big enough that people and businesses have no real alternative, you play by public rules.
@@ -16,8 +15,8 @@ LinkedIn is the world's largest professional network. Over 1.2 billion people an
 
 These people and businesses deserve representation.
 
-<p>&nbsp;</p>
 
 **Fairlinked** - Alliance for Digital Fairness e.V., was formed to be that representation.
 
-Join us and help to make LinkedIn a better place for all of us.
+{{< button url="/membership-apply" text="Join as a Member or Sponsor">}} {{< button url="/what-we-do" text="See what we do" style="secondary" >}}
+

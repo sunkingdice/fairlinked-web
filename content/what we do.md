@@ -10,7 +10,6 @@ As an advocacy group of professional LinkedIn users and businesses who depend on
 
 
 ---
-<p>&nbsp;</p>
 
 ## Browsergate
 We discovered a massive illegal surveillance operation and privacy breach by Linkedin (Microsoft). Read more about it here:  

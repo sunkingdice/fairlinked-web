@@ -2,6 +2,11 @@ baseURL = 'http://159.69.113.183:1313/'
 languageCode = 'en-us'
 title = 'Fairlinked'
 
+# https://gohugo.io/configuration/security/ — getenv defaults only allow ^HUGO_ and ^CI$.
+# https://gohugo.io/functions/os/getenv/ — extend the allowlist for local API URL from utils/start.sh
+[security.funcs]
+  getenv = ['^HUGO_', '^CI$', '^FAIRLINKED_MEMBERSHIP_API$']
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

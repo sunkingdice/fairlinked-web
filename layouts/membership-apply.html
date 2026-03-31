@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }} | {{ .Site.Title }}</title>
+  <meta name="description" content="Apply for Fairlinked membership. Sponsorship or full membership.">
+  <link rel="icon" type="image/svg+xml" href="/F-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 300;
+      color: #fff;
+      background: linear-gradient(to bottom, #288bed, #0A66C2 50%, #02376b);
+    }
+    main {
+      flex: 1;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      width: 100%;
+    }
+    h1 {
+      font-family: "Fira Mono", monospace;
+      font-weight: 500;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .step-meta {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-bottom: 1.25rem;
+    }
+    .steps-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1.75rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .steps-bar span {
+      opacity: 0.45;
+    }
+    .steps-bar span.is-current {
+      opacity: 1;
+      color: #fff;
+      border-bottom: 2px solid rgba(255,255,255,0.6);
+      padding-bottom: 2px;
+    }
+    .form-step { display: none; }
+    .form-step.is-active { display: block; }
+    .helper {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      opacity: 0.88;
+      margin-bottom: 0.75rem;
+    }
+    .form-block-subtle {
+      margin-top: 1.15rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.14);
+    }
+    .form-block-subtle > label {
+      font-size: 0.72rem;
+      opacity: 0.62;
+      margin-top: 0;
+    }
+    fieldset {
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    legend {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.85rem;
+      padding: 0 0.35rem;
+    }
+    label:not(.choice-card):not(.check-row) {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.75;
+      margin-bottom: 0.35rem;
+      margin-top: 0.85rem;
+    }
+    label.field-first { margin-top: 0; }
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 1rem;
+    }
+    @media (max-width: 480px) {
+      .name-row { grid-template-columns: 1fr; }
+    }
+    input[type="text"], input[type="email"], select {
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(0,0,0,0.2);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    input:focus, select:focus {
+      outline: 2px solid rgba(255,255,255,0.5);
+      outline-offset: 2px;
+    }
+    input[type="range"]:focus {
+      outline: none;
+    }
+    select option { color: #111; background: #fff; }
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .choice-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .choice-card {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.22);
+      border-radius: 10px;
+      padding: 1rem 1.1rem 1.15rem 2.2rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: rgba(0,0,0,0.12);
+    }
+    .choice-card:hover {
+      border-color: rgba(255,255,255,0.4);
+    }
+    .choice-card:has(input:checked) {
+      border-color: rgba(255,255,255,0.75);
+      background: rgba(0,0,0,0.22);
+    }
+    .choice-card input[type="radio"] {
+      position: absolute;
+      left: 1rem;
+      top: 1.15rem;
+      width: auto;
+      height: auto;
+      accent-color: #E46124;
+      cursor: pointer;
+    }
+    .choice-card .choice-title {
+      font-family: "Fira Mono", monospace;
+      font-size: 1rem;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.65rem;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 1;
+    }
+    .choice-card .choice-helper {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.45;
+      margin: auto 0 0;
+      padding-top: 0.8rem;
+    }
+    .choice-card .pc-list {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin: 0.4rem 0 0;
+      padding-left: 1.1rem;
+      opacity: 0.7;
+    }
+    .choice-card .pc-heading {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.65;
+      margin-top: 0.65rem;
+      margin-bottom: 0.2rem;
+    }
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 1;
+      cursor: pointer;
+    }
+    .check-row input { width: auto; margin-top: 0.2rem; flex-shrink: 0; accent-color: #E46124; }
+    .check-row a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .contribution-context {
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+    .contribution-context-eyebrow {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.6;
+      margin-bottom: 0.4rem;
+    }
+    .contribution-context-title {
+      font-family: "Fira Mono", monospace;
+      font-weight: 500;
+      font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .contribution-context-detail {
+      font-size: 0.94rem;
+      line-height: 1.55;
+      opacity: 0.88;
+      margin: 0;
+      max-width: 40rem;
+    }
+    .contribution-lead {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .contribution-heading {
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      margin: 0 0 0.75rem;
+    }
+    .contribution-basis-hint {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      opacity: 0.85;
+      margin-bottom: 1.25rem;
+    }
+    .slider-readout {
+      font-family: "Fira Mono", monospace;
+      font-size: 1.15rem;
+      margin: 0.25rem 0 0;
+      opacity: 0.92;
+    }
+    .suggestion-box {
+      margin-top: 1.5rem;
+      padding: 1rem 1.15rem;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+    }
+    .suggestion-label {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      opacity: 0.82;
+      margin: 0 0 0.35rem;
+    }
+    .suggestion-amount {
+      font-family: "Fira Mono", monospace;
+      font-size: 1.35rem;
+      margin: 0;
+    }
+    .suggestion-period {
+      font-size: 0.82rem;
+      font-weight: 300;
+      opacity: 0.7;
+    }
+    .suggestion-note {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      opacity: 0.65;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin: 0.75rem 0 0.25rem;
+      accent-color: #E46124;
+    }
+    .step-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      align-items: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.4rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      color: #02376b;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .thank-you {
+      text-align: center;
+      padding: 3rem 1rem;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+    .thank-you-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      line-height: 3.5rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.5);
+      font-size: 1.6rem;
+      margin: 0 auto 1.5rem;
+    }
+    .thank-you-title {
+      font-family: "Fira Mono", monospace;
+      font-weight: 500;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .thank-you-body {
+      font-size: 1rem;
+      line-height: 1.65;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    .thank-you-ref {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.78rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+    .thank-you-btn {
+      display: inline-block;
+      text-decoration: none;
+    }
+    .interval-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.3);
+      width: fit-content;
+    }
+    .interval-option {
+      cursor: pointer;
+    }
+    .interval-option input { display: none; }
+    .interval-option span {
+      display: block;
+      padding: 0.5rem 1.2rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      transition: background 0.2s, color 0.2s;
+    }
+    .interval-option input:checked + span {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    @media (min-width: 480px) {
+      .amount-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+    .amount-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      padding: 0.7rem 0.4rem;
+      cursor: pointer;
+      background: rgba(0,0,0,0.12);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .amount-card input[type="radio"] { display: none; }
+    .amount-card:has(input:checked) {
+      border-color: rgba(255,255,255,0.75);
+      background: rgba(0,0,0,0.22);
+    }
+    .amount-value {
+      font-family: "Fira Mono", monospace;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .amount-value::before { content: "\20AC"; font-size: 0.8em; margin-right: 0.15em; }
+    .amount-card-custom { padding: 0.35rem 0.4rem; }
+    .amount-card-custom .amount-custom-wrap { width: 100%; }
+    .amount-card-custom input[type="number"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      text-align: center;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .amount-card-custom input[type="number"]::placeholder { color: rgba(255,255,255,0.5); }
+    .amount-card-custom input[type="number"]::-webkit-outer-spin-button,
+    .amount-card-custom input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.45);
+    }
+    .btn-ghost:hover:not(:disabled) {
+      background: rgba(255,255,255,0.08);
+      box-shadow: none;
+    }
+    .status-msg { margin-top: 1rem; font-size: 0.95rem; min-height: 1.5em; }
+    .status-msg.err { color: #ffb4a8; }
+    .status-msg.ok { color: #b8f5c8; }
+    footer.site {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body{{- $api := or (getenv "FAIRLINKED_MEMBERSHIP_API") .Site.Params.membershipApiBase -}}{{- with $api }} data-membership-api-base="{{ . }}"{{ end }}>
+  {{ partial "header.html" . }}
+  <main>
+    <h1>{{ .Title }}</h1>
+    <p class="step-meta" id="step-heading" aria-live="polite">Step 1 of 3. Choose membership</p>
+    <div class="steps-bar" aria-hidden="true">
+      <span id="step-crumb-1" class="is-current">1 · Membership</span>
+      <span id="step-crumb-2">2 · Your details</span>
+      <span id="step-crumb-3">3 · Review</span>
+    </div>
+
+    <form id="membership-form" novalidate>
+      <div class="form-step is-active" data-step="1" id="form-step-1">
+        <fieldset style="border:none;padding:0;margin:0;">
+          <legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Membership type</legend>
+          <div class="choice-grid">
+            <label class="choice-card" for="membership_class_sponsorship">
+              <input type="radio" name="membership_class" id="membership_class_sponsorship" value="sponsorship" checked>
+              <span class="choice-title">Sponsorship</span>
+              <ul class="pc-list">
+                <li>Your contribution funds the research, the regulatory dialog, and the representation of commercial LinkedIn users</li>
+                <li>Receive published findings and regulatory intelligence</li>
+                <li>Join the member community</li>
+              </ul>
+              <p class="choice-helper">Best if you want to financially support the only advocacy group for LinkedIn users.</p>
+            </label>
+            <label class="choice-card" for="membership_class_full">
+              <input type="radio" name="membership_class" id="membership_class_full" value="full">
+              <span class="choice-title">Full membership</span>
+              <ul class="pc-list">
+                <li>Become a voting member of Fairlinked - Alliance for Digital Fairness e.V. with a seat and a voice at the general assembly</li>
+                <li>Participate in working groups on API access, algorithm transparency, and fair account practices</li>
+                <li>Access internal documents, draft submissions, and regulatory meeting notes</li>
+              </ul>
+              <p class="choice-helper">Best if you use LinkedIn commercially, as a professional, a business, or a tool developer.</p>
+            </label>
+          </div>
+        </fieldset>
+        <div class="step-nav">
+          <button type="button" class="btn" id="btn-step1-next">Next</button>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="2" id="form-step-2">
+        <fieldset>
+          <legend>Your details</legend>
+          <div class="name-row">
+            <div>
+              <label for="first_name" class="field-first">First name</label>
+              <input type="text" id="first_name" name="first_name" required autocomplete="given-name">
+            </div>
+            <div>
+              <label for="last_name" class="field-first">Last name</label>
+              <input type="text" id="last_name" name="last_name" required autocomplete="family-name">
+            </div>
+          </div>
+          <label for="business_name">Business name</label>
+          <input type="text" id="business_name" name="business_name" autocomplete="organization">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+          <label for="country">Country (where you do business / tax residency)</label>
+          <select id="country" name="country" required></select>
+          <div id="tier-fieldset-step2" class="form-block-subtle">
+            <label for="membership_tier">Membership type</label>
+            <select id="membership_tier" name="membership_tier">
+              <option value="">Select…</option>
+            </select>
+          </div>
+          <label class="hp" for="company_website">Company website</label>
+          <input class="hp" type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off">
+        </fieldset>
+
+        <fieldset>
+          <legend>Consent and data privacy</legend>
+          <label class="check-row">
+            <input type="checkbox" id="privacy_consent" name="privacy_consent" required>
+            <span>I have read the <a href="{{ "/privacy/" | relURL }}" target="_blank" rel="noopener noreferrer">privacy policy</a> and I agree to my data being processed for this application.</span>
+          </label>
+        </fieldset>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" id="btn-step2-back">Back</button>
+          <button type="button" class="btn" id="btn-step2-next">Next</button>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="3" id="form-step-3">
+        <div class="contribution-context" id="contribution-context" aria-live="polite">
+          <p class="contribution-context-eyebrow">You’re applying for</p>
+          <p class="contribution-context-title" id="contribution-context-title"></p>
+          <p class="contribution-context-detail" id="contribution-context-detail"></p>
+        </div>
+
+        <div id="contribution-full-block" hidden>
+          <p class="contribution-lead">Membership is free.<br>However: Fairlinked depends entirely on voluntary contributions from its members to fund advocacy, research, and regulatory work. We'd like you to contribute, and this tool helps you decide how much.</p>
+          <h3 class="contribution-heading">How much should I pledge as my voluntary contribution?</h3>
+          <div id="fee-details-inner">
+            <p class="contribution-basis-hint">Use what you spend on LinkedIn each year — ads, Premium, Sales Navigator, tools — as a starting point. The slider calculates a fair contribution based on that.</p>
+            <label for="basis_slider" class="field-first"><span id="basis-label">Your annual LinkedIn spend</span></label>
+            <input type="range" id="basis_slider">
+            <p class="slider-readout"><strong id="basis_display">…</strong></p>
+            <div class="suggestion-box">
+              <p class="suggestion-label">Based on that, we'd suggest a voluntary contribution of</p>
+              <p class="suggestion-amount"><strong id="voluntary_display">…</strong> <span class="suggestion-period">per month</span></p>
+            </div>
+            <p class="suggestion-note">Nothing is charged when you send this form. This figure is stored with your application so we know what you're comfortable with.</p>
+            <input type="hidden" id="basis_amount" name="basis_amount" value="">
+            <input type="hidden" id="voluntary_monthly_eur" name="voluntary_monthly_eur" value="">
+          </div>
+        </div>
+
+        <div id="contribution-sponsorship-block" hidden>
+          <p class="contribution-lead">Choose your contribution. You'll be taken to a secure payment page after submitting.</p>
+
+          <div class="interval-toggle">
+            <label class="interval-option">
+              <input type="radio" name="sponsor_interval" value="monthly" checked>
+              <span>Monthly</span>
+            </label>
+            <label class="interval-option">
+              <input type="radio" name="sponsor_interval" value="once">
+              <span>One-time</span>
+            </label>
+          </div>
+
+          <div class="amount-grid">
+            <label class="amount-card"><input type="radio" name="sponsor_amount" value="5"><span class="amount-value">5</span></label>
+            <label class="amount-card"><input type="radio" name="sponsor_amount" value="10" checked><span class="amount-value">10</span></label>
+            <label class="amount-card"><input type="radio" name="sponsor_amount" value="25"><span class="amount-value">25</span></label>
+            <label class="amount-card"><input type="radio" name="sponsor_amount" value="50"><span class="amount-value">50</span></label>
+            <label class="amount-card"><input type="radio" name="sponsor_amount" value="100"><span class="amount-value">100</span></label>
+            <label class="amount-card amount-card-custom">
+              <input type="radio" name="sponsor_amount" value="custom">
+              <span class="amount-custom-wrap"><input type="number" id="sponsor_custom_amount" min="1" step="1" placeholder="Other"></span>
+            </label>
+          </div>
+          <input type="hidden" id="sponsor_amount_final" name="sponsor_amount_final" value="10">
+          <input type="hidden" id="sponsor_interval_final" name="sponsor_interval_final" value="monthly">
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" id="btn-step3-back">Back</button>
+          <button type="submit" class="btn" id="submit-btn">Send application</button>
+        </div>
+      </div>
+
+      <p class="status-msg" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="thank-you" class="thank-you" hidden>
+      <div class="thank-you-icon">✓</div>
+      <h2 class="thank-you-title" id="thank-you-title">Thank you</h2>
+      <p class="thank-you-body" id="thank-you-body"></p>
+      <p class="thank-you-ref" id="thank-you-ref"></p>
+      <a href="/" class="btn thank-you-btn">Back to fairlinked.eu</a>
+    </div>
+  </main>
+  <footer class="site">{{ .Site.Params.footerHtml | safeHTML }}</footer>
+  <script src="/js/membership-apply.js" defer></script>
+</body>
+</html>

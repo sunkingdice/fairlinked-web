@@ -1,0 +1,15 @@
+[Unit]
+Description=Fairlinked membership application API
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/fairlinked
+EnvironmentFile=-/home/deploy/fairlinked/api.env
+ExecStart=/home/deploy/fairlinked/api/fairlinked-membership-api
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

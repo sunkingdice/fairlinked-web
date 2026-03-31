@@ -1,0 +1,60 @@
+{
+  "tiers": [
+    {
+      "id": "individual",
+      "label": "Individual",
+      "selectLabel": "Individual (you use LinkedIn professionally on your own behalf, not for a company)",
+      "basis": "annual_revenue",
+      "basisLabel": "earn from LinkedIn activities",
+      "minMonthly": 5.00,
+      "percentage": 0.0025,
+      "basisSlider": {
+        "min": 10000,
+        "max": 250000,
+        "step": 1000
+      },
+      "example": {
+        "amount": 48000,
+        "label": "e.g. €48,000 annual revenue"
+      }
+    },
+    {
+      "id": "business",
+      "label": "Business",
+      "selectLabel": "Business (you represent a business that uses and relies on LinkedIn commercially)",
+      "basis": "marketing_spend",
+      "basisLabel": "spend on LinkedIn marketing and ads",
+      "minMonthly": 30.00,
+      "percentage": 0.005,
+      "basisSlider": {
+        "min": 25000,
+        "max": 2500000,
+        "step": 5000
+      },
+      "example": {
+        "amount": 250000,
+        "label": "e.g. €250,000 marketing spend"
+      }
+    },
+    {
+      "id": "toolmaker",
+      "label": "Toolmaker",
+      "selectLabel": "Toolmaker (you build tools or services for people who use LinkedIn)",
+      "basis": "annual_revenue",
+      "basisLabel": "make in company revenue",
+      "minMonthly": 90.00,
+      "percentage": 0.01,
+      "basisSlider": {
+        "min": 100000,
+        "max": 10000000,
+        "step": 10000
+      },
+      "example": {
+        "amount": 1000000,
+        "label": "e.g. €1,000,000 annual revenue"
+      }
+    }
+  ],
+  "currency": "EUR",
+  "billingPeriod": "yearly"
+}

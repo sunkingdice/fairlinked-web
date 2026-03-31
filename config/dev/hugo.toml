@@ -1,0 +1,4 @@
+# Used with: hugo server -e dev (e.g. utils/start.sh)
+# Fallback when FAIRLINKED_MEMBERSHIP_API is not set (allowlisted in root hugo.toml [security.funcs].getenv).
+[params]
+  membershipApiBase = "http://127.0.0.1:8081"

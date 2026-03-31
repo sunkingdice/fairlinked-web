@@ -2,3 +2,8 @@ public/
 resources/
 _vendor/
 .hugo_build.lock
+api/fairlinked-membership-api
+api/fairlinked-*.json
+api/data/
+.local-dev/
+.env

@@ -5,7 +5,9 @@
     </a>
     <nav>
         {{ range sort .Site.RegularPages "Weight" }}
+            {{ if not .Params.hideFromNav }}
             <a href="{{ .RelPermalink }}" style="font-family:'Fira Mono',monospace;font-size:0.9rem;margin-left:1.5rem;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.4);">{{ .Title }}</a>
+            {{ end }}
         {{ end }}
     </nav>
 </header>

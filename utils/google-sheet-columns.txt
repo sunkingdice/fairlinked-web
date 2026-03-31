@@ -1,0 +1,5 @@
+Row appended by api (fairlinked-membership-api) — use this header row in Sheet1 row 1:
+
+created_at | id | email | membership_class | first_name | last_name | business_name | country | membership_tier | basis_amount | voluntary_monthly_eur | marketing_consent | privacy_consent
+
+Share the spreadsheet with the Google service account email from your JSON key.
