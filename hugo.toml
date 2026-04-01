@@ -1,4 +1,5 @@
 baseURL = 'http://159.69.113.183:1313/'
+enableRobotsTXT = true
 languageCode = 'en-us'
 title = 'Fairlinked'
 
