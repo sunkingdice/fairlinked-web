@@ -5,8 +5,6 @@ draft: false
 showMetadata: false
 weight: 10
 ---
-## Why LinkedIn needs an advocacy group
-
 The EU treats big tech platforms like public infrastructure. If your platform is big enough that people and businesses have no real alternative, you play by public rules.
 
 And that's a great way of seeing it.  
