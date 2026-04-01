@@ -9,7 +9,7 @@ git commit -m "$MSG" || echo "Nothing to commit"
 git push
 
 echo "=== Deploying to server ==="
-ssh fl-web << 'REMOTE'
+ssh -t fl-web << 'REMOTE'
 set -euo pipefail
 cd /home/deploy/fairlinked
 git pull
