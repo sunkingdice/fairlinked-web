@@ -107,6 +107,30 @@
       });
   });
 
+  // --- Bitcoin ---
+  var btcBtn = document.getElementById('pay-btc');
+  var btcPanel = document.getElementById('btc-panel');
+  var btcAddress = document.getElementById('btc-address');
+  var btcCopied = document.getElementById('btc-copied');
+
+  if (btcBtn && btcPanel) {
+    btcBtn.addEventListener('click', function () {
+      btcPanel.hidden = !btcPanel.hidden;
+    });
+  }
+
+  if (btcAddress) {
+    btcAddress.addEventListener('click', function () {
+      var addr = btcAddress.textContent.trim();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(addr).then(function () {
+          if (btcCopied) btcCopied.textContent = 'Copied to clipboard';
+          setTimeout(function () { if (btcCopied) btcCopied.textContent = ''; }, 3000);
+        });
+      }
+    });
+  }
+
   // --- Payment return ---
   var urlParams = new URLSearchParams(window.location.search);
   var paymentResult = urlParams.get('payment');
