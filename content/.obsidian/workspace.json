@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "membership-apply.md",
+                "file": "DGA Services.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "membership-apply"
+              "title": "DGA Services"
             }
           }
         ],
@@ -200,16 +200,16 @@
   },
   "active": "4ee4e7bff07e8a4f",
   "lastOpenFiles": [
-    "donate.md",
-    "join us.md",
-    "_index.md",
     "membership-apply.md",
+    "donate.md",
     "contact.md",
     "about.md",
+    "DGA Services.md",
+    "join us.md",
+    "_index.md",
     "donate1.md",
     "what we do.md",
     "privacy.md",
-    "DGA Services.md",
     "join/_join.md",
     "join"
   ]

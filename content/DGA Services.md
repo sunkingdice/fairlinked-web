@@ -3,7 +3,7 @@ title: DGA Services
 date: 2026-04-01
 draft: false
 showMetadata: false
-weight: 30
+weight: 60
 ---
 Fairlinked e.V. is working on data services as a data intermediation services provider under Art. 10(a) of Regulation (EU) 2022/868 (Data Governance Act), notified with the German Federal Network Agency (Bundesnetzagentur).
 

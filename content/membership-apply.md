@@ -5,7 +5,7 @@ layout: membership-apply
 date: 2026-03-30
 draft: false
 showMetadata: false
-weight: 32
+weight: 30
 hideFromNav: false
 ---
 Standing up to a platform you depend on takes nerve. But regulators listen to numbers, not individuals. Every member strengthens the case.  
