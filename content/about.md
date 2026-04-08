@@ -16,5 +16,6 @@ These people and businesses deserve representation.
 
 **Fairlinked** - Alliance for Digital Fairness e.V., was formed to be that representation.
 
-{{< button url="/membership-apply" text="Join as a Member or Sponsor">}} {{< button url="/what-we-do" text="See what we do" style="secondary" >}}
+{{< button url="/donate" text="Donate" >}} {{< button url="/membership-apply" text="Become a Member" style="secondary" >}}
+
 

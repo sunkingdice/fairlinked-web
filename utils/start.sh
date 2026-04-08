@@ -96,8 +96,8 @@ echo "=== Starting API on ${FAIRLINKED_MEMBERSHIP_API} ==="
 LISTEN_ADDR="127.0.0.1:${API_PORT}" \
 SQLITE_PATH="${ROOT}/.local-dev/membership.db" \
 CORS_ORIGINS="${ORIGIN_HOST},${ORIGIN_LOCAL}" \
-STRIPE_SUCCESS_URL="${ORIGIN_LOCAL}/membership-apply/?payment=success" \
-STRIPE_CANCEL_URL="${ORIGIN_LOCAL}/membership-apply/?payment=cancelled" \
+STRIPE_DONATE_SUCCESS_URL="${ORIGIN_LOCAL}/donate/?payment=success" \
+STRIPE_DONATE_CANCEL_URL="${ORIGIN_LOCAL}/donate/?payment=cancelled" \
   "$API_BIN" &
 API_PID=$!
 
@@ -128,7 +128,8 @@ fi
 echo ""
 echo "Fairlinked local dev is up."
 echo "  Site:     ${ORIGIN_LOCAL}/"
-echo "  Form:     ${ORIGIN_LOCAL}/membership-apply/"
+echo "  Apply:    ${ORIGIN_LOCAL}/membership-apply/"
+echo "  Donate:   ${ORIGIN_LOCAL}/donate/"
 echo "  API:      ${FAIRLINKED_MEMBERSHIP_API}/health"
 echo "Stop with:  ${UTILS_DIR}/stop.sh"
 echo "Ports:      HUGO=${HUGO_PORT} API=${API_PORT} (override with FAIRLINKED_HUGO_PORT / FAIRLINKED_API_PORT)"

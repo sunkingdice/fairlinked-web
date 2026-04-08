@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }} | {{ .Site.Title }}</title>
+  <meta name="description" content="Support Fairlinked's legal fund. Your donation funds advocacy, research, and regulatory work for fair LinkedIn access.">
+  <link rel="icon" type="image/svg+xml" href="/F-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 300;
+      color: #fff;
+      background: linear-gradient(to bottom, #288bed, #0A66C2 50%, #02376b);
+    }
+    main {
+      flex: 1;
+      max-width: 38rem;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      width: 100%;
+    }
+    h1 {
+      font-family: "Fira Mono", monospace;
+      font-weight: 500;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .page-intro {
+      font-size: 1rem;
+      line-height: 1.65;
+      opacity: 0.88;
+      margin-bottom: 1.75rem;
+      max-width: 34rem;
+    }
+    .page-intro p { margin-bottom: 0.75rem; }
+    .page-intro p:last-child { margin-bottom: 0; }
+    .page-intro a { color: #fff; text-underline-offset: 3px; }
+
+    /* Progress bar */
+    .progress-section { margin-bottom: 2rem; }
+    .progress-label {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.82rem;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+    .progress-track {
+      width: 100%;
+      height: 1.1rem;
+      background: rgba(0,0,0,0.25);
+      border-radius: 0.55rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #E46124, #f59e0b);
+      border-radius: 0.55rem;
+      transition: width 0.8s ease;
+      min-width: 0;
+    }
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.45rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.82rem;
+    }
+    .progress-raised { opacity: 0.9; }
+    .progress-goal { opacity: 0.5; }
+
+    /* Amount / interval */
+    .section-label {
+      font-family: "Fira Mono", monospace;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+      margin-bottom: 0.65rem;
+    }
+    .interval-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.3);
+      width: fit-content;
+    }
+    .interval-option { cursor: pointer; }
+    .interval-option input { display: none; }
+    .interval-option span {
+      display: block;
+      padding: 0.5rem 1.2rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      transition: background 0.2s, color 0.2s;
+    }
+    .interval-option input:checked + span {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (min-width: 480px) {
+      .amount-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+    .amount-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      padding: 0.7rem 0.4rem;
+      cursor: pointer;
+      background: rgba(0,0,0,0.12);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .amount-card input[type="radio"] { display: none; }
+    .amount-card:has(input:checked) {
+      border-color: rgba(255,255,255,0.75);
+      background: rgba(0,0,0,0.22);
+    }
+    .amount-value {
+      font-family: "Fira Mono", monospace;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .amount-value::before { content: "\20AC"; font-size: 0.8em; margin-right: 0.15em; }
+    .amount-card-custom { padding: 0.35rem 0.4rem; }
+    .amount-card-custom .amount-custom-wrap { width: 100%; }
+    .amount-card-custom input[type="number"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      text-align: center;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .amount-card-custom input[type="number"]::placeholder { color: rgba(255,255,255,0.5); }
+    .amount-card-custom input[type="number"]::-webkit-outer-spin-button,
+    .amount-card-custom input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    /* Payment buttons */
+    .payment-methods { margin-top: 0.5rem; }
+    .pay-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.75rem 1.2rem;
+      border-radius: 6px;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-bottom: 0.6rem;
+    }
+    .pay-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .pay-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .pay-btn-stripe {
+      background: #fff;
+      color: #02376b;
+    }
+    .pay-btn-paypal {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .pay-btn-btc {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .coming-soon {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5);
+    }
+
+    .status-msg { margin-top: 1rem; font-size: 0.95rem; min-height: 1.5em; }
+    .status-msg.err { color: #ffb4a8; }
+    .status-msg.ok { color: #b8f5c8; }
+
+    /* Thank you */
+    .thank-you {
+      text-align: center;
+      padding: 3rem 1rem;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+    .thank-you-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      line-height: 3.5rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.5);
+      font-size: 1.6rem;
+      margin: 0 auto 1.5rem;
+    }
+    .thank-you-title {
+      font-family: "Fira Mono", monospace;
+      font-weight: 500;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .thank-you-body {
+      font-size: 1rem;
+      line-height: 1.65;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.4rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.9rem;
+      color: #02376b;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    footer.site {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body{{- $api := or (getenv "FAIRLINKED_MEMBERSHIP_API") .Site.Params.membershipApiBase -}}{{- with $api }} data-api-base="{{ . }}"{{ end }}>
+  {{ partial "header.html" . }}
+  <main>
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+
+    <div id="donate-form">
+      <div class="progress-section">
+        <p class="progress-label">Funding progress</p>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-stats">
+          <span class="progress-raised" id="progress-raised">&hellip;</span>
+          <span class="progress-goal" id="progress-goal">&hellip;</span>
+        </div>
+      </div>
+
+      <p class="section-label">Choose amount</p>
+
+      <div class="interval-toggle">
+        <label class="interval-option">
+          <input type="radio" name="donate_interval" value="monthly" checked>
+          <span>Monthly</span>
+        </label>
+        <label class="interval-option">
+          <input type="radio" name="donate_interval" value="once">
+          <span>One-time</span>
+        </label>
+      </div>
+
+      <div class="amount-grid">
+        <label class="amount-card"><input type="radio" name="donate_amount" value="5"><span class="amount-value">5</span></label>
+        <label class="amount-card"><input type="radio" name="donate_amount" value="10" checked><span class="amount-value">10</span></label>
+        <label class="amount-card"><input type="radio" name="donate_amount" value="25"><span class="amount-value">25</span></label>
+        <label class="amount-card"><input type="radio" name="donate_amount" value="50"><span class="amount-value">50</span></label>
+        <label class="amount-card"><input type="radio" name="donate_amount" value="100"><span class="amount-value">100</span></label>
+        <label class="amount-card amount-card-custom">
+          <input type="radio" name="donate_amount" value="custom">
+          <span class="amount-custom-wrap"><input type="number" id="donate_custom_amount" min="1" step="1" placeholder="Other"></span>
+        </label>
+      </div>
+
+      <div class="payment-methods">
+        <button type="button" class="pay-btn pay-btn-stripe" id="pay-stripe">Pay with card</button>
+        <button type="button" class="pay-btn pay-btn-paypal" disabled>PayPal <span class="coming-soon">Coming soon</span></button>
+        <button type="button" class="pay-btn pay-btn-btc" disabled>Bitcoin <span class="coming-soon">Coming soon</span></button>
+      </div>
+
+      <p class="status-msg" id="donate-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <div id="thank-you" class="thank-you" hidden>
+      <div class="thank-you-icon">&#10003;</div>
+      <h2 class="thank-you-title">Thank you for your support</h2>
+      <p class="thank-you-body">Your donation makes a real difference. Every euro funds the legal, regulatory, and research work that makes LinkedIn fairer for everyone.</p>
+      <a href="/" class="btn">Back to fairlinked.eu</a>
+    </div>
+  </main>
+  <footer class="site">{{ .Site.Params.footerHtml | safeHTML }}</footer>
+  <script src="/js/donate.js" defer></script>
+</body>
+</html>
