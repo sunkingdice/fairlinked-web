@@ -104,7 +104,7 @@
   <nav>
     {{ range sort .Site.RegularPages "Weight" }}
       {{ if not .Params.hideFromNav }}
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <a href="{{ .RelPermalink }}">{{ with .Params.menuTitle }}{{ . }}{{ else }}{{ .Title }}{{ end }}</a>
       {{ end }}
     {{ end }}
   </nav>
