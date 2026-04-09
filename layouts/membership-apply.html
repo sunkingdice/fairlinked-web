@@ -124,7 +124,7 @@
     @media (max-width: 480px) {
       .name-row { grid-template-columns: 1fr; }
     }
-    input[type="text"], input[type="email"], select {
+    input[type="text"], input[type="email"], select, .cb-input {
       width: 100%;
       padding: 0.55rem 0.65rem;
       border-radius: 4px;
@@ -134,12 +134,62 @@
       font-family: inherit;
       font-size: 1rem;
     }
-    input:focus, select:focus {
+    input:focus, select:focus, .cb-input:focus {
       outline: 2px solid rgba(255,255,255,0.5);
       outline-offset: 2px;
     }
     select option { color: #111; background: #fff; }
     .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    /* Country combobox */
+    .cb-wrap { position: relative; }
+    .cb-list {
+      display: none;
+      position: absolute;
+      z-index: 100;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      max-height: 280px;
+      overflow-y: auto;
+      background: #1a3d6d;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 6px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+    }
+    .cb-list.is-open { display: block; }
+    .cb-group-hdr {
+      padding: 0.5rem 0.75rem 0.3rem;
+      font-family: "Fira Mono", monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.5;
+      pointer-events: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .cb-group-hdr:first-child { border-top: none; }
+    .cb-opt {
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: background 0.1s;
+    }
+    .cb-opt:hover, .cb-opt.is-active {
+      background: rgba(255,255,255,0.12);
+    }
+    .cb-opt.is-selected {
+      background: rgba(255,255,255,0.18);
+      font-weight: 400;
+    }
+    .cb-empty {
+      padding: 0.75rem;
+      opacity: 0.5;
+      font-size: 0.88rem;
+      text-align: center;
+    }
 
     /* Verification code input */
     .verify-intro {
@@ -280,8 +330,12 @@
           <input type="text" id="business_name" name="business_name" autocomplete="organization">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" required autocomplete="email">
-          <label for="country">Country (where you do business / tax residency)</label>
-          <select id="country" name="country" required></select>
+          <label for="country-input">Country (where you do business / tax residency)</label>
+          <div class="cb-wrap" id="country-cb">
+            <input type="text" class="cb-input" id="country-input" autocomplete="off" placeholder="Type to search&hellip;" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="country-list">
+            <input type="hidden" id="country" name="country">
+            <div class="cb-list" id="country-list" role="listbox"></div>
+          </div>
           <div class="form-block-subtle">
             <label for="membership_tier">Membership type</label>
             <select id="membership_tier" name="membership_tier" required>
